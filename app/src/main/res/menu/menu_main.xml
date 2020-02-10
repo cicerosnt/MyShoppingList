@@ -1,0 +1,31 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="net.cicerosantos.myshoppinglist.activity.MainActivity">
+
+    <item
+        android:id="@+id/search_view"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_search_black_24dp"
+        app:showAsAction="always"
+        android:title="Search" />
+
+    <item
+        android:id="@+id/action_reload"
+        android:orderInCategory="200"
+        android:icon="@drawable/ic_autorenew_black_24dp"
+        app:showAsAction="always"
+        android:title="Reload" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="300"
+        android:title="@string/action_profile"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_exit"
+        android:orderInCategory="400"
+        android:title="@string/action_exit"
+        app:showAsAction="never" />
+</menu>
