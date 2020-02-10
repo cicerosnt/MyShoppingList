@@ -32,7 +32,7 @@ import android.widget.EditText;
 import net.cicerosantos.myshoppinglist.R;
 import net.cicerosantos.myshoppinglist.model.AlertDefault;
 import net.cicerosantos.myshoppinglist.model.User;
-import net.cicerosantos.myshoppinglist.settings.Permissao;
+import net.cicerosantos.myshoppinglist.settings.Permission;
 import net.cicerosantos.myshoppinglist.settings.Settings;
 
 import java.io.ByteArrayOutputStream;
@@ -88,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
         dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Permissao.validarPermissoes( permissoesNecessarias, RegisterActivity.this, 1 );
+                Permission.validarPermissoes( permissoesNecessarias, RegisterActivity.this, 1 );
             }
         });
         dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -195,7 +195,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             adOnclickUpdate();
 
-            Permissao.validarPermissoes(permissoesNecessarias, this, 1);
+            Permission.validarPermissoes(permissoesNecessarias, this, 1);
         }else{
             addOnclickSave();
         }

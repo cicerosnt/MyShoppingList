@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Permissao {
+public class Permission {
 
     //recebe um arraay de string
     public static boolean validarPermissoes(String[] permissoes, Activity activity, int requestCode){
