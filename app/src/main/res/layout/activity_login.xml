@@ -8,11 +8,19 @@
     android:padding="20dp"
     tools:context=".activity.LoginActivity">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/ic_icon" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="25dp"
         android:gravity="center"
         android:text="Log-in"
@@ -49,14 +57,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
+        android:background="@drawable/bg_style_button"
         android:onClick="onClickLogin"
-        android:text="Log In" />
+        android:text="Log In"
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/btnNewRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_style_button_reverse"
         android:onClick="onClickNewRegister"
-        android:text="New register" />
+        android:text="New register"
+        android:textColor="@color/colorAccent" />
 
 </LinearLayout>

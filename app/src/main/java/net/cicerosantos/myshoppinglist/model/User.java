@@ -11,11 +11,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 
-import net.cicerosantos.myshoppinglist.settings.Settings;
+import net.cicerosantos.myshoppinglist.settings.SettingsFirebase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,8 +26,8 @@ import java.util.Map;
 import static android.content.ContentValues.TAG;
 
 public class User {
-    private static FirebaseAuth firebaseAuth = Settings.getFirebaseAuth();
-    private static DatabaseReference databaseReference = Settings.getDatabaseReference();
+    private static FirebaseAuth firebaseAuth = SettingsFirebase.getFirebaseAuth();
+    private static DatabaseReference databaseReference = SettingsFirebase.getDatabaseReference();
     private String id, name, mail, psss, photo;
 
     public User() {
@@ -32,19 +35,36 @@ public class User {
 
     public static boolean saveFirebaseAuth(final User user, final Activity activity){
 
+        AlertDefault.getProgress("","Please Wait...", activity);
+
         try {
             firebaseAuth.createUserWithEmailAndPassword(user.getMail(), user.getPsss())
                     .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                AlertDefault.progressDialog.dismiss();
+
                                 updateNameInFirebaseAuth(user.getName());
                                 saveInFirebasDataBase(user);
+
+                                AlertDefault.getToast("Success!", activity);
                             } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(activity, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
+                                String  result = "";
+                                AlertDefault.progressDialog.dismiss();
+                                try {
+                                    throw task.getException();
+                                }catch ( FirebaseAuthWeakPasswordException e){
+                                    result = "Password invalid!";
+                                }catch ( FirebaseAuthInvalidCredentialsException e){
+                                    result = "Mail invalid!";
+                                }catch ( FirebaseAuthUserCollisionException e){
+                                    result = "Mail already exists!";
+                                }catch ( Exception e){
+                                    result = "Error: " + e.getMessage();
+                                }
+
+                                AlertDefault.getToast(result, activity);
                                 //saveInFirebasDataBase(null);
                             }
 
@@ -63,7 +83,7 @@ public class User {
             UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
                     .setDisplayName( name )
                     .build();
-            Settings.getFirebaseAuth().getCurrentUser().updateProfile( profile ).addOnCompleteListener(new OnCompleteListener<Void>() {
+            SettingsFirebase.getFirebaseAuth().getCurrentUser().updateProfile( profile ).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if ( task.isSuccessful() ){
@@ -87,7 +107,7 @@ public class User {
                     .Builder()
                     .setPhotoUri( url )
                     .build();
-            Settings.getFirebaseAuth().getCurrentUser().updateProfile( profile ).addOnCompleteListener(new OnCompleteListener<Void>() {
+            SettingsFirebase.getFirebaseAuth().getCurrentUser().updateProfile( profile ).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()){
@@ -111,7 +131,7 @@ public class User {
 
     public void update(String idUsuario){
 
-        DatabaseReference firebase = Settings.getDatabaseReference()
+        DatabaseReference firebase = SettingsFirebase.getDatabaseReference()
                 .child( "user" )
                 .child( idUsuario );
 

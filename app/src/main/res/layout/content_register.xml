@@ -72,7 +72,7 @@
         android:id="@+id/til1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:passwordToggleEnabled="true">
+        app:passwordToggleEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtPass"
@@ -96,12 +96,13 @@
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <CheckBox
-        android:id="@+id/cbxLoggedIn"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:text="Stay logged in" />
+        android:layout_margin="30dp"
+        android:background="@drawable/bg_style_button"
+        android:text="Save"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

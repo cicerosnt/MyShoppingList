@@ -33,7 +33,7 @@ import net.cicerosantos.myshoppinglist.R;
 import net.cicerosantos.myshoppinglist.adapter.AdapterShoppingList;
 import net.cicerosantos.myshoppinglist.model.AlertDefault;
 import net.cicerosantos.myshoppinglist.model.Item;
-import net.cicerosantos.myshoppinglist.settings.Settings;
+import net.cicerosantos.myshoppinglist.settings.SettingsFirebase;
 
 import java.io.FileDescriptor;
 import java.util.ArrayList;
@@ -79,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initComponents() {
 
-        databaseReference = itemRef = Settings.getDatabaseReference();
-        firebaseAuth = Settings.getFirebaseAuth();
+        databaseReference = itemRef = SettingsFirebase.getDatabaseReference();
+        firebaseAuth = SettingsFirebase.getFirebaseAuth();
         recyclerView = findViewById(R.id.recyclerView);
         searchView = findViewById(R.id.search_view);
 

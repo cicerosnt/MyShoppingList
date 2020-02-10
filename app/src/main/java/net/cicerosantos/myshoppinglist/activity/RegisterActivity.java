@@ -11,7 +11,6 @@ import android.os.Bundle;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +25,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
@@ -33,7 +33,7 @@ import net.cicerosantos.myshoppinglist.R;
 import net.cicerosantos.myshoppinglist.model.AlertDefault;
 import net.cicerosantos.myshoppinglist.model.User;
 import net.cicerosantos.myshoppinglist.settings.Permission;
-import net.cicerosantos.myshoppinglist.settings.Settings;
+import net.cicerosantos.myshoppinglist.settings.SettingsFirebase;
 
 import java.io.ByteArrayOutputStream;
 
@@ -41,19 +41,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private FirebaseAuth firebaseAuth;
-    private StorageReference storageReference;
-    private static final int SELECAO_GALERIA = 200;
+    FirebaseAuth firebaseAuth;
+    StorageReference storageReference;
+    static final int SELECAO_GALERIA = 200;
 
-    private CircleImageView imageView;
-    private EditText edtName, edtMail, edtPass, edtPass2;
-    private CheckBox cbxLoggedIn;
-    private ConstraintLayout layoutImg;
-    private FloatingActionButton fab;
-    private TextInputLayout til1, til2;
-    private static Bitmap imgBitmap = null;
+    CircleImageView imageView;
+    EditText edtName, edtMail, edtPass, edtPass2;
+    ConstraintLayout layoutImg;
+    Button btnSave;
+    TextInputLayout til1, til2;
+    static Bitmap imgBitmap = null;
 
-    private String[] permissoesNecessarias = new String[]{
+    String[] permissoesNecessarias = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
 
@@ -183,7 +182,6 @@ public class RegisterActivity extends AppCompatActivity {
             edtMail.setEnabled(false);
             edtPass.setEnabled(false);
             edtPass2.setEnabled(false);
-            cbxLoggedIn.setVisibility(View.GONE);
             til1.setVisibility(View.GONE);
             til2.setVisibility(View.GONE);
 
@@ -202,7 +200,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void adOnclickUpdate() {
-        fab.setOnClickListener(new View.OnClickListener() {
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validateField(edtName)){
@@ -221,32 +219,18 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void addOnclickSave() {
-        fab.setOnClickListener(new View.OnClickListener() {
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (validateField(edtName)){
                     if (validateField(edtMail)){
                         if (validateField(edtPass)){
-                            if (!edtPass.getText().equals(edtPass2.getText())){
+                            if (edtPass2.getText().toString().equals(edtPass.getText().toString())){
                                 User user = new User();
                                 user.setName(edtName.getText().toString());
                                 user.setMail(edtMail.getText().toString());
                                 user.setPsss(edtPass.getText().toString());
-                                if (user.saveFirebaseAuth(user, RegisterActivity.this)){
-                                    if (!cbxLoggedIn.isChecked()){
-                                        firebaseAuth.signOut();
-                                        Snackbar.make(view, "Sucessfully", Snackbar.LENGTH_LONG)
-                                                .setAction("Action", null).show();
-                                        loggin();
-                                    }else {
-                                        Snackbar.make(view, "Sucessfully", Snackbar.LENGTH_LONG)
-                                                .setAction("Action", null).show();
-                                        main();
-                                    }
-                                }else {
-                                    Snackbar.make(view, "Error :-(", Snackbar.LENGTH_LONG)
-                                            .setAction("Action", null).show();
-                                }
+                                user.saveFirebaseAuth(user, RegisterActivity.this);
                             }else {
                                 edtPass2.requestFocus();
                                 edtPass2.setError("Password not match!");
@@ -279,26 +263,23 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void initComponents() {
 
-        firebaseAuth = Settings.getFirebaseAuth();
-        storageReference = Settings.getStorageReference();
+        firebaseAuth = SettingsFirebase.getFirebaseAuth();
+        storageReference = SettingsFirebase.getStorageReference();
 
         imageView =findViewById(R.id.imgProfile);
         edtName = findViewById(R.id.edtName);
         edtMail = findViewById(R.id.edtMail);
         edtPass = findViewById(R.id.edtPass);
         edtPass2 = findViewById(R.id.edtPass2);
-        cbxLoggedIn = findViewById(R.id.cbxLoggedIn);
         layoutImg = findViewById(R.id.layoutImg);
-        fab = findViewById(R.id.fabSave);
+        layoutImg.setVisibility(View.GONE);
+        btnSave = findViewById(R.id.btnSave);
         til1 = findViewById(R.id.til1);
         til2 = findViewById(R.id.til2);
 
         requestDataPut();
 
     }
-
-
-
 
     private boolean validateField(EditText editText){
         String field = editText.getText().toString();

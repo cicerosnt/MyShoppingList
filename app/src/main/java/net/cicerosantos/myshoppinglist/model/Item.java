@@ -5,11 +5,11 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
-import net.cicerosantos.myshoppinglist.settings.Settings;
+import net.cicerosantos.myshoppinglist.settings.SettingsFirebase;
 
 public class Item {
-    private static DatabaseReference databaseReference = Settings.getDatabaseReference();
-    private static FirebaseAuth firebaseAuth = Settings.getFirebaseAuth();
+    private static DatabaseReference databaseReference = SettingsFirebase.getDatabaseReference();
+    private static FirebaseAuth firebaseAuth = SettingsFirebase.getFirebaseAuth();
     private String id, description, priority, position;
 
     public Item() {

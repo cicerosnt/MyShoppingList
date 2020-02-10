@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import net.cicerosantos.myshoppinglist.R;
 import net.cicerosantos.myshoppinglist.model.AlertDefault;
 import net.cicerosantos.myshoppinglist.model.User;
-import net.cicerosantos.myshoppinglist.settings.Settings;
+import net.cicerosantos.myshoppinglist.settings.SettingsFirebase;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initComponets() {
-        firebaseAuth = Settings.getFirebaseAuth();
+        firebaseAuth = SettingsFirebase.getFirebaseAuth();
         edtMail = findViewById(R.id.edtMail);
         edtPass = findViewById(R.id.edtPass);
         btnLogIn = findViewById(R.id.btnLogIn);
