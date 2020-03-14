@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                     item.setId(ds.getKey());
                     itemList.add(item);
                 }
-
+                recyclerView.refreshDrawableState();
                 settingsRecycler(itemList);
                 AlertDefault.progressDialog.dismiss();
             }
