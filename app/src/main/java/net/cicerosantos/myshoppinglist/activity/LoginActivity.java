@@ -26,10 +26,8 @@ import net.cicerosantos.myshoppinglist.settings.SettingsFirebase;
 public class LoginActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
-
     EditText edtMail, edtPass;
     Button btnLogIn, btnNewRegister;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
