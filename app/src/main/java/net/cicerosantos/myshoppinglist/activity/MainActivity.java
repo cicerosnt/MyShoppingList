@@ -27,7 +27,6 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import net.cicerosantos.myshoppinglist.R;
 import net.cicerosantos.myshoppinglist.adapter.AdapterShoppingList;
@@ -35,7 +34,6 @@ import net.cicerosantos.myshoppinglist.model.AlertDefault;
 import net.cicerosantos.myshoppinglist.model.Item;
 import net.cicerosantos.myshoppinglist.settings.SettingsFirebase;
 
-import java.io.FileDescriptor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,17 +82,14 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         searchView = findViewById(R.id.search_view);
 
-        verify();
+        isConected();
 
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
-
                 toolbar.setVisibility(View.GONE);
                 searchView.setVisibility(View.VISIBLE);
-
             }
-
             @Override
             public void onSearchViewClosed() {
                 toolbar.setVisibility(View.VISIBLE);
@@ -112,13 +107,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 if ( newText != null && !newText.isEmpty()){
                     query( newText.toLowerCase() );
                 }
-
                 return true;
             }
         });
@@ -215,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void verify(){
+    private void isConected(){
         if (firebaseAuth.getCurrentUser() == null){
             startActivity(new Intent(this, LoginActivity.class));
             finish();
@@ -311,7 +304,7 @@ public class MainActivity extends AppCompatActivity {
 
         }else if (id == R.id.action_exit){
             firebaseAuth.signOut();
-            verify();
+            isConected();
         }else if (id == R.id.action_reload){
             search = false;
             settingsRecycler(itemList);
